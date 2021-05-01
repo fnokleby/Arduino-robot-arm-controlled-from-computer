@@ -1,19 +1,16 @@
 #include <Servo.h>
+#include <ArduinoJson.h>
 
 Servo servo1; 
 Servo servo2;
 Servo servo3;
 Servo servo4;
 
-String commandNum;
-String posBase;
-int posBaseInt;
-String posArm1;
-int posArm1Int;
-String speedRemote;
-int speedRemoteInt;
-
 int i = 0;
+
+char json[] = "{'action': 3, 'baseDegrees': '71', 'arm1Degrees': '20', 'speed': '0'}";
+
+DynamicJsonDocument doc(300);
 
 void setup() {
   servo1.attach(3); //base
@@ -25,9 +22,15 @@ void setup() {
   servo1.write(0);
 
   delay(1000);
+  
 
   Serial.begin(115200);
   Serial.setTimeout(1);
+
+  doc["action"];
+  doc["baseDegrees"];
+  doc["arm1Degrees"];
+  doc["speed"];
 }
 
 void moveBase(int x, int v) {
@@ -62,34 +65,22 @@ void moveArm1(int x, int v) {
 
 void loop() {
   if (Serial.available() > 0) {
-    
-    String command = Serial.readString(); 
-    
-    commandNum = command;
-    commandNum.remove(1);
-    
-    command.remove(0, 2);
 
-    int hyphenPos = command.indexOf('-');
-    int starPos = command.indexOf('*');
+    doc.clear();
 
+    deserializeJson(doc, Serial.readString());
 
-    posArm1 = command;
-    posBase = command;
-    speedRemote = command;
+    int commandNum = doc["action"];
+    String basePos = doc["baseDegrees"];
+    String arm1Pos = doc["arm1Degrees"];
+    String delayStr = doc["speed"];
 
-    posArm1.remove(0, hyphenPos + 1);
-    posBase.remove(hyphenPos, 3);
-    speedRemote.remove(0, starPos + 1);
+    int basePosInt = basePos.toInt();
+    int arm1PosInt = arm1Pos.toInt();
+    int delayInt = delayStr.toInt();
     
-    posBaseInt = posBase.toInt();
-    posArm1Int = posArm1.toInt();
-    speedRemoteInt = speedRemote.toInt();
-    speedRemoteInt = map(speedRemoteInt, 1, 100, 50, 10); 
     
-    int commandInt = command.toInt();
-
-    if (commandNum.toInt() == 1) {
+    if (commandNum == 1) {
       
     for (i = 0; i < 180; i++) { 
     servo1.write(i);                        
@@ -110,13 +101,14 @@ void loop() {
     delay(10);                      
   }
   }
-  if (commandNum.toInt() == 2) {
-    moveBase(0, speedRemoteInt);
-    moveArm1(0, speedRemoteInt);
+  
+  if (commandNum == 2) {
+    moveBase(0, delayInt);
+    moveArm1(0, delayInt);
   }
-  if (commandNum.toInt() == 3) {
-    moveBase(posBaseInt, speedRemoteInt);
-    moveArm1(posArm1Int, speedRemoteInt);
+  if (commandNum == 3) {
+    moveBase(basePosInt, delayInt);
+    moveArm1(arm1PosInt, delayInt);
   }
     }
 
