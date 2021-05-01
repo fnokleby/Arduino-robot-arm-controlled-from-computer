@@ -10,7 +10,19 @@ This project is a prototype robot arm and controller. The robot it self is made 
 * Usb cable.
 * 12V power supply (Decent amperage, servos need quite a lot at times).
 * A pizza box.
+* Some extra cardboard for the construction, I used another pizza box.
 
 ## Images
 Image number one:
 ![Image 2](https://i.imgur.com/aTVj5QT.jpg)
+
+## TODO
+
+- [ ] Switch to json (Why didn't i think of this?)
+- [ ] Save current position of arms, and move to that position.
+- [ ] Play thru all posiotions, with custom wait times between each one.
+- [ ] Better GUI.
+- [ ] More reliable communication between python and arduino.
+- [ ] Add last part of arm. 
+- [ ] Add a "grabber" of sorts to arm (if this is possible within the weight limit)
+- [ ] Switches, LED's and other status indicating things (like 7 segment displays, button to go thru pre programmed program, and button to execute saved positions) to the pizza box.
