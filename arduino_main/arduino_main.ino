@@ -10,6 +10,8 @@ String posBase;
 int posBaseInt;
 String posArm1;
 int posArm1Int;
+String speedRemote;
+int speedRemoteInt;
 
 int i = 0;
 
@@ -69,15 +71,21 @@ void loop() {
     command.remove(0, 2);
 
     int hyphenPos = command.indexOf('-');
+    int starPos = command.indexOf('*');
+
 
     posArm1 = command;
     posBase = command;
+    speedRemote = command;
 
     posArm1.remove(0, hyphenPos + 1);
     posBase.remove(hyphenPos, 3);
+    speedRemote.remove(0, starPos + 1);
     
     posBaseInt = posBase.toInt();
     posArm1Int = posArm1.toInt();
+    speedRemoteInt = speedRemote.toInt();
+    speedRemoteInt = map(speedRemoteInt, 1, 100, 50, 10); 
     
     int commandInt = command.toInt();
 
@@ -103,12 +111,12 @@ void loop() {
   }
   }
   if (commandNum.toInt() == 2) {
-    moveBase(0, 50);
-    moveArm1(0, 50);
+    moveBase(0, speedRemoteInt);
+    moveArm1(0, speedRemoteInt);
   }
   if (commandNum.toInt() == 3) {
-    moveBase(posBaseInt, 50);
-    moveArm1(posArm1Int, 50);
+    moveBase(posBaseInt, speedRemoteInt);
+    moveArm1(posArm1Int, speedRemoteInt);
   }
     }
 
