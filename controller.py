@@ -12,13 +12,15 @@ def test_arm():
 
 def reset_arm():
     print("Sending command...")
-    arduino.write(bytes('2:55', 'utf-8'))
+    speed = str(speedSlider.get())
+    arduino.write(bytes('2*90' , 'utf-8'))
     print('Command sent!')
 
 def send_arm_to_pos():
     base = str(baseSlider.get())
     arm1 = str(arm1Slider.get())
-    fullCommand = '3:' + base + '-' + arm1
+    speed = str(speedSlider.get())
+    fullCommand = '3:' + base + '-' + arm1 + '*' + speed
     print(fullCommand)
     arduino.write(bytes(fullCommand, 'utf-8'))
 
@@ -48,7 +50,7 @@ arm1Slider.grid(column=1, row = 2)
 arm2Slider = tk.Scale(frame, from_=0, to=85, orient="horizontal", label="Arm 2", )
 arm2Slider.grid(column=2, row = 2)
 
-speedSlider = tk.Scale(frame, from_=0, to=85, orient="horizontal", label="Speed", )
+speedSlider = tk.Scale(frame, from_=1, to=100, orient="horizontal", label="Speed (%)", )
 speedSlider.grid(column=3, row = 2)
 
 # show window
