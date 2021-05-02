@@ -35,7 +35,7 @@ void setup()
   delay(1000);
 
   Serial.begin(115200);
-  Serial.setTimeout(1000);
+  Serial.setTimeout(100);
 
   doc["action"];
   doc["baseDegrees"];
@@ -141,14 +141,56 @@ void loop()
     moveBase(basePosInt, delayInt);
     moveArm1(arm1PosInt, delayInt);
   }
-  else if (commandNum == 11)
-  { //Save pos 1
+  else if (commandNum == 11) //Save pos 1
+  {
     base1 = servo1.read();
     arm11 = servo2.read();
   }
-  else if (commandNum == 21)
-  { //Save pos 1
-    servo1.write(base1);
-    servo2.write(arm11);
+  else if (commandNum == 21) //Go to pos 1
+  {
+    moveBase(base1, delayInt);
+    moveArm1(arm11, delayInt);
+  }
+  else if (commandNum == 12) //Save pos 2
+  {
+    base2 = servo1.read();
+    arm12 = servo2.read();
+  }
+  else if (commandNum == 22) //Go to pos 2
+  {
+    moveBase(base2, delayInt);
+    moveArm1(arm12, delayInt);
+  }
+  else if (commandNum == 13) //Save pos 3
+  {
+    base3 = servo1.read();
+    arm13 = servo2.read();
+  }
+  else if (commandNum == 23) //Go to pos 3
+  {
+    moveBase(base3, delayInt);
+    moveArm1(arm13, delayInt);
+  }
+  else if (commandNum == 14) //Save pos 4
+  {
+    base4 = servo1.read();
+    arm14 = servo2.read();
+  }
+  else if (commandNum == 24) //Go to pos 4
+  {
+    moveBase(base4, delayInt);
+    moveArm1(arm14, delayInt);
+  }
+  else if (commandNum == 19)
+  {
+    int base1 = 0;
+    int base2 = 0;
+    int base3 = 0;
+    int base4 = 0;
+
+    int arm11 = 0;
+    int arm12 = 0;
+    int arm13 = 0;
+    int arm14 = 0;
   }
 }
