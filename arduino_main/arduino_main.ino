@@ -3,8 +3,6 @@
 
 Servo servo1;
 Servo servo2;
-Servo servo3;
-Servo servo4;
 
 int base1 = 0;
 int base2 = 0;
