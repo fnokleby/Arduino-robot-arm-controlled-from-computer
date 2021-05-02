@@ -7,6 +7,7 @@ import json
 arduino = serial.Serial(port='COM4', baudrate=115200, timeout=1)
 
 def sendJson(num , baseDegrees = None, arm1Degrees = None, delay = "10"):
+    delay = str(speedSlider.get())
     tempDict = {
         "action": num,
         "baseDegrees": baseDegrees,
@@ -36,6 +37,9 @@ def savePos(x: int):
     x = x + 10
     sendJson(x)
 
+def clearPos():
+    sendJson(19)
+
 def gotoPos(x: int):
     x = x + 20
     sendJson(x)
@@ -57,10 +61,10 @@ returnButton.grid(column=1, row = 1)
 posButton = tk.Button(frame, text="Send arm to cords", command=send_arm_to_pos)
 posButton.grid(column=2, row = 1)
 
-baseSlider = tk.Scale(frame, from_=1, to=180, orient="horizontal", label="Base servo", )
+baseSlider = tk.Scale(frame, from_=0, to=180, orient="horizontal", label="Base servo", )
 baseSlider.grid(column=0, row = 2)
 
-arm1Slider = tk.Scale(frame, from_=1, to=85, orient="horizontal", label="Arm 1", )
+arm1Slider = tk.Scale(frame, from_=0, to=85, orient="horizontal", label="Arm 1", )
 arm1Slider.grid(column=1, row = 2)
 
 arm2Slider = tk.Scale(frame, from_=1, to=85, orient="horizontal", label="N/A", )
@@ -81,6 +85,9 @@ saveButton3.grid(column=2, row=3)
 
 saveButton4 = tk.Button(frame, text="Save pos. 4", command=lambda: savePos(4))
 saveButton4.grid(column=3, row=3)
+
+clearButton = tk.Button(frame, text="Clear all", command=lambda: clearPos())
+clearButton.grid(column=3, row=3)
 
 gotoButton1 = tk.Button(frame, text="Go to pos. 1", command=lambda: gotoPos(1))
 gotoButton1.grid(column=0, row=4)
