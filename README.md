@@ -28,4 +28,7 @@ Image number one:
 - [ ] Switches, LED's and other status indicating things (like 7 segment displays, button to go thru pre programmed program, and button to execute saved positions) to the pizza box.
 
 ## Known bugs
-- [ ] "Go through all" clears all saved positions, I have no clue why
+
+
+## Solved bugs
+- [x] "Go through all" clears all saved positions, I have no clue why. REASON: I forgot the "break;" after the case containing the "Go through all" :)
