@@ -8,7 +8,7 @@ This project is a prototype robot arm and controller. The robot it self is made 
 * Arduino (I used an UNO)
 * A computer capable of running a .py script.
 * Usb cable.
-* 12V power supply (Decent amperage, servos need quite a lot at times).
+* 12V power supply (Decent amperage, servos need quite a lot).
 * A pizza box.
 * Some extra cardboard for the construction, I used another pizza box.
 
