@@ -193,7 +193,7 @@ void loop()
     moveBase(base4, delayInt);
     moveArm1(arm14, delayInt);
     delay(waitTime4);
-  case 19:
+  case 35:
     base1 = 0;
     base2 = 0;
     base3 = 0;

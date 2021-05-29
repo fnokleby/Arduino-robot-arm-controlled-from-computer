@@ -57,7 +57,7 @@ def savePos(x: int):
 
 
 def clearPos():
-    sendJson(19)
+    sendJson(35)
 
 
 def gotoPos(x: int):
