@@ -19,10 +19,13 @@ Image number one:
 ## TODO
 
 - [x] Switch to json (Why didn't i think of this?)
-- [ ] Save current position of arms, and move to that position.
-- [ ] Play thru all posiotions, with custom wait times between each one.
+- [x] Save current position of arms, and move to that position.
+- [x] Play thru all posiotions, with custom wait times between each one.
 - [ ] Better GUI.
 - [x] More reliable communication between python and arduino.
 - [ ] Add last part of arm. 
 - [ ] Add a "grabber" of sorts to arm (if this is possible within the weight limit)
 - [ ] Switches, LED's and other status indicating things (like 7 segment displays, button to go thru pre programmed program, and button to execute saved positions) to the pizza box.
+
+## Known bugs
+- [ ] "Go through all" clears all saved positions, I have no clue why
