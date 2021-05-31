@@ -7,7 +7,9 @@ var controls;
 // 30 cm == 30
 
 var p = new THREE.Vector3(0, 0, 0);
-var ax = new THREE.Vector3(0, 1, 0);
+var axisY = new THREE.Vector3(0, 1, 0);
+var axisX = new THREE.Vector3(1, 0, 0);
+var axisZ = new THREE.Vector3(0, 1, 1);
 
 var statusText = document.getElementById("statusText");
 
@@ -50,7 +52,7 @@ arm1 = new THREE.Mesh(arm1Geometry, arm1Material);
 arm1.position.set(0, 12.5, 0);
 scene.add(arm1);
 
-arm1.position.set(0, 4, -12.5);
+arm1.position.set(0, 4, -13.5);
 arm1.rotation.x = Math.PI / 2;
 arm1.rotation.z = 0;
 
@@ -131,7 +133,7 @@ function sendToPos() {
   let arm1Degrees = document.getElementById("arm1Input").value;
   let arm2Degrees = document.getElementById("arm2Input").value;
 
-  armTo(baseDegrees, 0, 0)
+  armTo(baseDegrees, arm1Degrees, 0)
 
   sendJson(3, baseDegrees, arm1Degrees, null, null, null)
 }
@@ -143,7 +145,7 @@ function fullArm0() {
   arm1.rotation.x = Math.PI / 2;
   arm1.rotation.z = 0;
   arm1.rotation.y = 0;
-  arm1.rotateAroundWorldAxis(p, ax, degreeToRad(0))
+  arm1.rotateAroundWorldAxis(p, axisY, degreeToRad(0))
 }
 
 function degreeToRad(degree) {
@@ -155,10 +157,10 @@ function armTo(baseDegrees, arm1Degrees, arm2) {
   fullArm0()
 
   let baseDegreesInt = parseInt(baseDegrees)
+  let arm1DegreesInt = parseInt(arm1Degrees)
+  arm1.rotateAroundWorldAxis(p, axisX, degreeToRad(arm1DegreesInt))
+  arm1.rotateAroundWorldAxis(p, axisY, degreeToRad(baseDegreesInt))
 
-  baseDegreesInt = baseDegreesInt * Math.PI / 180
-
-  arm1.rotateAroundWorldAxis(p, ax, baseDegreesInt)
 }
 
 THREE.Object3D.prototype.rotateAroundWorldAxis = function () {
