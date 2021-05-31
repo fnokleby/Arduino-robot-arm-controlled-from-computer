@@ -4,6 +4,11 @@ var scene, renderer, camera;
 var cube;
 var controls;
 
+// 30 cm == 30
+
+var p = new THREE.Vector3(0, 0, 0);
+var ax = new THREE.Vector3(0, 1, 0);
+
 var statusText = document.getElementById("statusText");
 
 const port = new SerialPort('COM4', {
@@ -18,12 +23,36 @@ document.body.appendChild(renderer.domElement);
 
 scene = new THREE.Scene();
 
-var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
-var cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x1ec876 });
-cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+const loader = new THREE.TextureLoader();
 
-cube.position.set(0, 0, 0);
-scene.add(cube);
+var baseGeometry = new THREE.BoxGeometry(30, 1, 30);
+var baseMaterial = new THREE.MeshBasicMaterial({
+  map: loader.load("https://i.imgur.com/9eoVQMS.png"),
+});
+base = new THREE.Mesh(baseGeometry, baseMaterial);
+
+base.position.set(0, 0, 0);
+scene.add(base);
+
+var baseServoGeometry = new THREE.BoxGeometry(4.1, 4.1, 4.1);
+var baseServoMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+baseServo = new THREE.Mesh(baseServoGeometry, baseServoMaterial);
+
+baseServo.position.set(0, 2, 0);
+scene.add(baseServo);
+
+
+
+var arm1Geometry = new THREE.BoxGeometry(1, 25, 4);
+var arm1Material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+arm1 = new THREE.Mesh(arm1Geometry, arm1Material);
+
+arm1.position.set(0, 12.5, 0);
+scene.add(arm1);
+
+arm1.position.set(0, 4, -12.5);
+arm1.rotation.x = Math.PI / 2;
+arm1.rotation.z = 0;
 
 camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
 camera.position.y = 60;
@@ -50,6 +79,7 @@ function animate() {
 }
 
 function sendJson(num, baseDegrees, arm1Degrees, arm2Degrees, delay, waitTime = 10) {
+
   let delayRead = document.getElementById("delayInput").value
 
   let message = {
@@ -58,7 +88,7 @@ function sendJson(num, baseDegrees, arm1Degrees, arm2Degrees, delay, waitTime = 
     arm1Degrees: arm1Degrees,
     arm2Degrees: arm2Degrees,
     speed: delayRead,
-    waitTime: waitTime 
+    waitTime: waitTime
   }
 
   let stringMessage = JSON.stringify(message)
@@ -84,11 +114,14 @@ function sendTest() {
 function zeroArm() {
   console.log('test')
 
+  fullArm0()
   sendJson(2, null, null, null, 10, null)
 }
 
 function maxArm() {
   console.log('test')
+
+  armTo(170, 85, 0)
 
   sendJson(3, 170, 85, null, 10, null)
 }
@@ -98,12 +131,58 @@ function sendToPos() {
   let arm1Degrees = document.getElementById("arm1Input").value;
   let arm2Degrees = document.getElementById("arm2Input").value;
 
+  armTo(baseDegrees, 0, 0)
+
   sendJson(3, baseDegrees, arm1Degrees, null, null, null)
 }
+
+
+// 3d model functions
+function fullArm0() {
+  arm1.position.set(0, 4, -12.5);
+  arm1.rotation.x = Math.PI / 2;
+  arm1.rotation.z = 0;
+  arm1.rotation.y = 0;
+  arm1.rotateAroundWorldAxis(p, ax, degreeToRad(0))
+}
+
+function degreeToRad(degree) {
+  let rad = degree * Math.PI / 180
+  return rad
+}
+
+function armTo(baseDegrees, arm1Degrees, arm2) {
+  fullArm0()
+
+  let baseDegreesInt = parseInt(baseDegrees)
+
+  baseDegreesInt = baseDegreesInt * Math.PI / 180
+
+  arm1.rotateAroundWorldAxis(p, ax, baseDegreesInt)
+}
+
+THREE.Object3D.prototype.rotateAroundWorldAxis = function () {
+
+  var q1 = new THREE.Quaternion();
+  return function (point, axis, angle) {
+
+    q1.setFromAxisAngle(axis, angle);
+
+    this.quaternion.multiplyQuaternions(q1, this.quaternion);
+
+    this.position.sub(point);
+    this.position.applyQuaternion(q1);
+    this.position.add(point);
+
+    return this;
+  }
+
+}();
 
 port.on('error', function (err) {
   console.log('Error: ', err.message)
 })
+
 
 
 animate();
