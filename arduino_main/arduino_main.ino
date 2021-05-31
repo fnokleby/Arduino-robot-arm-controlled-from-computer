@@ -96,6 +96,7 @@ void loop()
 
   doc.clear();
   String serialContent = Serial.readString();
+  Serial.print(serialContent);
   deserializeJson(doc, serialContent);
   Serial.print(serialContent);
 

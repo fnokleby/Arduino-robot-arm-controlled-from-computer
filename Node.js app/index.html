@@ -1,0 +1,68 @@
+<html>
+
+<head>
+  <title>Arm controller</title>
+  <script src="./js/lib/three.js"></script>
+  <script src="./js/lib/OrbitControls.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="vertical-center-grid">
+    <button class="child" onclick="save1()">Save 1</button>
+    <button class="child" onclick="save2()">Save 2</button>
+    <button class="child" onclick="save3()">Save 3</button>
+    <button class="child" onclick="save4()">Save 4</button>
+
+    <input id="input1" type="number" min="1" max="3000" placeholder=20>
+    <input id="input2" type="number" min="1" max="3000" placeholder="20">
+    <input id="input3" type="number" min="1" max="3000" placeholder="20">
+    <input id="input4" type="number" min="1" max="3000" placeholder="20">
+
+    <button class="child" onclick="goto1()">Go to 1</button>
+    <button class="child" onclick="goto2()">Go to 2</button>
+    <button class="child" onclick="goto3()">Go to 3</button>
+    <button class="child" onclick="goto4()">Go to 4</button>
+
+  </div>
+
+  <div class="vertical-center-top-grid">
+    <p style="text-align:center" id="statusText" class="statusText">Status</p>
+    <button onclick="sendTest()">Test arm</button>
+    <button onclick="zeroArm()">Return arm to 0:0</button>
+    <button onclick="maxArm()">Send arm to 180:85</button>
+    <button class="sendToPos" onclick="sendToPos()">Send arm to cords</button>
+  </div>
+
+  <div class="vertical-center-left-center-grid">
+    <label class="armLabel" >Arm 1</label>
+    <label class="armLabel" >Arm 2</label>
+    <input type="number" id="arm1Input" min="1" max="85">
+    <input type="number" id="arm2Input" min="1" max="85">
+    <div class="centeredGrid">
+      <label>Base Servo</label>
+    </div>
+
+    <div class="centeredGrid">
+      <input type="number" id="baseInput" min="1" max="180">
+    </div>
+    
+    
+  </div>
+
+  <div class="vertical-center-right-center-grid">
+    <label>Pause between <br> steps (ms)</label>
+    <input type="number" min="0" max="100" id="delayInput">
+  </div>
+
+  <div class="vertical-center-top-left">
+    <p style="color:red;">X</p>
+    <p style="color:green;">Y</p>
+    <p style="color:blue;">Z</p>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
