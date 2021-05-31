@@ -21,7 +21,7 @@ Image number one:
 - [x] Switch to json (Why didn't i think of this?)
 - [x] Save current position of arms, and move to that position.
 - [x] Play thru all posiotions, with custom wait times between each one.
-- [ ] Better GUI.
+- [X] Better GUI. (I added an electron app that uses three.js)
 - [x] More reliable communication between python and arduino.
 - [ ] Add last part of arm. 
 - [ ] Add a "grabber" of sorts to arm (if this is possible within the weight limit)
