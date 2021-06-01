@@ -33,9 +33,10 @@ Image number one:
 
 ## Work in progress
 - [ ] 3d gui
+- [ ] Save current position of arms, and move to that position. (Not on node gui)
 
 ## Back burner
-  - [x] Save current position of arms, and move to that position. (Not on node gui)
+
 
 ## Known bugs
 
