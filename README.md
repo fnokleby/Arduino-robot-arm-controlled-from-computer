@@ -23,6 +23,7 @@ Image number one:
 - [x] Play thru all posiotions, with custom wait times between each one.
 - [X] Better GUI. (I added an electron app that uses three.js)
 - [x] More reliable communication between python and arduino.
+- [x] Save current position of arms, and move to that position. (Not on node gui)
 
 ## Not started
 - [ ] Add a "grabber" of sorts to arm (if this is possible within the weight limit)
@@ -33,10 +34,9 @@ Image number one:
 
 ## Work in progress
 - [ ] 3d gui
-- [ ] Save current position of arms, and move to that position. (Not on node gui)
 
 ## Back burner
-
+- [ ] Show saved positions in gui
 
 ## Known bugs
 
