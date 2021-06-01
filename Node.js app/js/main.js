@@ -80,22 +80,30 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-function sendJson(num, baseDegrees, arm1Degrees, arm2Degrees, delay, waitTime = 10) {
+function sendJson(num, baseDegrees, arm1Degrees, arm2Degrees, delay = 20, waitTime = 10) {
 
   let delayRead = document.getElementById("delayInput").value
+
+  if (delayRead != 0 && delay == null) {
+    delay = delayRead
+  }
+  else if (delayRead == 0 && delay == null) {
+    delay = 10
+  }
 
   let message = {
     action: num,
     baseDegrees: baseDegrees,
     arm1Degrees: arm1Degrees,
     arm2Degrees: arm2Degrees,
-    speed: delayRead,
+    speed: delay,
     waitTime: waitTime
   }
 
   let stringMessage = JSON.stringify(message)
 
   console.log('Writing json to port...')
+  console.log(stringMessage)
 
   port.write(stringMessage, function (err) {
     if (err) {
@@ -180,6 +188,56 @@ THREE.Object3D.prototype.rotateAroundWorldAxis = function () {
   }
 
 }();
+
+// Saves
+
+function save1() {
+  let waitTime = document.getElementById("delayTime1").value;
+  sendJson(11, null, null, null, null, waitTime)
+}
+
+function save2() {
+  let waitTime = document.getElementById("delayTime2").value;
+  sendJson(12, null, null, null, null, waitTime)
+}
+
+function save3() {
+  let waitTime = document.getElementById("delayTime3").value;
+  sendJson(13, null, null, null, null, waitTime)
+}
+
+function save4() {
+  let waitTime = document.getElementById("delayTime4").value;
+  sendJson(14, null, null, null, null, waitTime)
+}
+
+function gotoSaved1() {
+  console.log("Go to saved 1")
+  sendJson(21, null, null, null)
+}
+
+function gotoSaved2() {
+  console.log("Go to saved 2")
+  sendJson(22, null, null, null)
+}
+
+function gotoSaved3() {
+  console.log("Go to saved 3")
+  sendJson(23, null, null, null, null)
+}
+
+function gotoSaved4() {
+  console.log("Go to saved 4")
+  sendJson(24, null, null, null, null)
+}
+
+function goThroughAll() {
+  sendJson(29, null, null, null, 10, 20)
+}
+
+function clearSaved() {
+  sendJson(35, null, null, null, 10, 20)
+}
 
 port.on('error', function (err) {
   console.log('Error: ', err.message)
