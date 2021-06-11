@@ -1,5 +1,15 @@
 #include <Servo.h>
 #include <ArduinoJson.h>
+#include <LiquidCrystal.h>
+#include <PS2Keyboard.h>
+
+const int DataPin = A3;
+const int IRQpin = A5;
+
+PS2Keyboard keyboard;
+
+const int rs = 12, en = 11, d4 = 10, d5 = 9, d6 = 8, d7 = 7;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 Servo servo1;
 Servo servo2;
@@ -44,6 +54,10 @@ void setup()
   doc["baseDegrees"];
   doc["arm1Degrees"];
   doc["speed"];
+
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  keyboard.begin(DataPin, IRQpin);
 }
 
 void moveBase(int x, int v)
@@ -64,6 +78,24 @@ void moveBase(int x, int v)
       delay(v);
     }
   }
+}
+
+void screenPos()
+{
+  if (keyboard.available())
+  {
+    char c = keyboard.read();
+  }
+  int screenBase = servo1.read() + 1;
+  int screenArm1 = servo2.read() + 1;
+  lcd.setCursor(0, 0);
+  lcd.print("Starting!");
+  lcd.setCursor(0, 1);
+  lcd.print("Base:");
+  lcd.print(screenBase);
+
+  lcd.print(" Arm1:");
+  lcd.print(screenArm1);
 }
 
 void moveArm1(int x, int v)
@@ -88,6 +120,7 @@ void moveArm1(int x, int v)
 
 void loop()
 {
+  screenPos();
   if (Serial.available() == 0)
   {
 
