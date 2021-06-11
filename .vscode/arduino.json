@@ -2,5 +2,5 @@
     "port": "COM4",
     "board": "arduino:avr:uno",
     "programmer": "arduino:avrisp",
-    "sketch": "arduino_main\\arduino_main.ino"
+    "sketch": "Arduino\\arduino_main.ino"
 }
