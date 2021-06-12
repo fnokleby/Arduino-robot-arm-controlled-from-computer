@@ -12,6 +12,8 @@ bool keyboardControll;
 const int computerSelectPin = A5;
 const int keyboardSelectPin = A4;
 
+unsigned int currentTab = 1;
+
 PS2Keyboard keyboard;
 
 const int rs = 12, en = 11, d4 = 10, d5 = 9, d6 = 8, d7 = 7;
@@ -133,81 +135,80 @@ void moveArm1(int x, int v)
 
 void loop()
 {
-
   if (digitalRead(computerSelectPin) != 1 && digitalRead(keyboardSelectPin) != 1)
   {
     computerControll = false;
     keyboardControll = false;
-    lcd.setCursor(0, 0);
-    lcd.print("Input: None");
+
+    if (currentTab == 1)
+    {
+      lcd.setCursor(0, 0);
+      lcd.print("Input: None");
+    }
   }
   else if (digitalRead(computerSelectPin) == 1)
   {
     computerControll = true;
     keyboardControll = false;
-    lcd.setCursor(0, 0);
-    lcd.print("Input: USB ");
+    if (currentTab == 1)
+    {
+      lcd.setCursor(0, 0);
+      lcd.print("Input: USB ");
+    }
   }
   else if (digitalRead(keyboardSelectPin) == 1)
   {
     computerControll = false;
     keyboardControll = true;
-    lcd.setCursor(0, 0);
-    lcd.print("Input: PS/2");
+    if (currentTab == 1)
+    {
+      lcd.setCursor(0, 0);
+      lcd.print("Input: PS/2");
+    }
   }
-  // if (keyboard.available())
-  // {
 
-  //   // read the next key
-  //   char c = keyboard.read();
+  if (currentTab == 2)
+  {
+    lcd.setCursor(0,0);
+    lcd.print("Base: ");
+    lcd.print(servo1.read()+1);
+    lcd.print("    ");
 
-  //   // check for some of the special keys
-  //   if (c == PS2_ENTER)
-  //   {
-  //     lcd.setCursor(0,1);
-  //   }
-  //   else if (c == PS2_TAB)
-  //   {
-  //     lcd.print("[Tab]");
-  //   }
-  //   else if (c == PS2_ESC)
-  //   {
-  //     lcd.print("[ESC]");
-  //   }
-  //   else if (c == PS2_PAGEDOWN)
-  //   {
-  //     lcd.print("[PgDn]");
-  //   }
-  //   else if (c == PS2_PAGEUP)
-  //   {
-  //     lcd.print("[PgUp]");
-  //   }
-  //   else if (c == PS2_LEFTARROW)
-  //   {
-  //     lcd.print("[Left]");
-  //   }
-  //   else if (c == PS2_RIGHTARROW)
-  //   {
-  //     lcd.print("[Right]");
-  //   }
-  //   else if (c == PS2_UPARROW)
-  //   {
-  //     lcd.print("[Up]");
-  //   }
-  //   else if (c == PS2_DOWNARROW)
-  //   {
-  //     lcd.print("[Down]");
-  //   }
-  //   else if (c == PS2_DELETE)
-  //   {
-  //     lcd.print("[Del]");
-  //   }
-  //   else
-  //   {
+    lcd.setCursor(0,1);
+    lcd.print("Arm: ");
+    lcd.print(servo2.read()+1);
 
-  //     // otherwise, just print all normal characters
-  //     lcd.print(c);
-  //   }
+    lcd.print(" Arm2: ");
+    lcd.print(servo2.read()+1);
+  }
+
+  if (currentTab ==  3)
+  {
+    lcd.setCursor(0,0);
+    lcd.print("         ");
+    lcd.setCursor(0,1);
+    lcd.print("                ");
+  }
+  
+  
+  if (keyboard.available())
+  {
+    char c = keyboard.read();
+
+    if (c == PS2_TAB)
+    {
+      if (currentTab < 3)
+      {
+        currentTab++;
+      }
+      else
+      {
+        currentTab = 1;
+      }
+      lcd.setCursor(15, 0);
+      lcd.print(currentTab);
+    }
+  }
 
   if (Serial.available() != 0 && computerControll == true)
   {
@@ -328,8 +329,8 @@ void loop()
       break;
     }
   }
-  else if (keyboard.available() && keyboardControll == true){
-
+  else if (keyboard.available() && keyboardControll == true)
+  {
   }
   else
   {
