@@ -1,7 +1,7 @@
 # Arduino arm controlled from pc running python script.
 
 This project is a prototype robot arm and controller. The robot it self is made out of an old pizza box, and uses servos attached to an arduino. The arduino recives data over serial from a computer. The computer runs a python script and has a very rudimentary gui.  
-**FOR SOME REASON YOU CANT UPLOAD ARDUINO CODE FROM VSCODE? WTF? (works with arduino IDE)**  
+**FOR SOME REASON YOU CAN'T ALWAYS UPLOAD ARDUINO CODE FROM VSCODE? WTF? (works with arduino IDE)**  
 
 ## Parts
 * SG-5010 Tower Pro Servo
