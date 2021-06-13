@@ -108,32 +108,32 @@ void moveArm1(int x, int v)
   }
 }
 
-void moveBaseByOne(bool isNegative)
+void moveBaseKey(bool isNegative, int degrees)
 {
   int currentPos = servo1.read();
   int newPos;
 
   if (isNegative == false)
   {
-    newPos = currentPos + 1;
+    newPos = currentPos + degrees;
   }
   else if (isNegative == true){
-    newPos = currentPos - 1;
+    newPos = currentPos - degrees;
   }
 
   servo1.write(newPos);
 }
-void moveArm1ByOne(bool isNegative)
+void moveArm1Key(bool isNegative, int degrees)
 {
   int currentPos = servo2.read();
   int newPos;
 
   if (isNegative == false)
   {
-    newPos = currentPos + 1;
+    newPos = currentPos + degrees;
   }
   else if (isNegative == true){
-    newPos = currentPos - 1;
+    newPos = currentPos - degrees;
   }
 
   servo2.write(newPos);
@@ -215,24 +215,42 @@ void loop()
     }
     else if (c == PS2_LEFTARROW)
     {
-      moveBaseByOne(false);
+      moveBaseKey(false, 1);
     }
     else if (c == PS2_RIGHTARROW)
     {
-      moveBaseByOne(true);
+      moveBaseKey(true, 1);
     }
     else if (c == PS2_UPARROW)
     {
-      moveArm1ByOne(false);
+      moveArm1Key(false, 1);
     }
     else if (c == PS2_DOWNARROW)
     {
-      moveArm1ByOne(true);
+      moveArm1Key(true, 1);
     }
+    else if (c == 'a')
+    {
+      moveBaseKey(false, 5);
+    }
+    else if (c == 'd')
+    {
+      moveBaseKey(true, 5);
+    }
+    else if (c == 'w')
+    {
+      moveArm1Key(false, 5);
+    }
+    
+    else if (c == 's')
+    {
+      moveArm1Key(true, 5);
+    }
+    
     else if (c == '0')
     {
-      servo1.write(1);
-      servo2.write(1);
+      servo1.write(0);
+      servo2.write(0);
     }
   }
 
