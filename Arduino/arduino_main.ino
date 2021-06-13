@@ -88,31 +88,6 @@ void moveBase(int x, int v)
   }
 }
 
-void screenPos()
-{
-  if (keyboard.available())
-  {
-
-    char c = keyboard.read();
-
-    lcd.setCursor(0, 0);
-    lcd.print("Starting!");
-  }
-  else
-  {
-    int screenBase = servo1.read() + 1;
-    int screenArm1 = servo2.read() + 1;
-    lcd.setCursor(0, 0);
-    lcd.print("Starting!");
-    lcd.setCursor(0, 1);
-    lcd.print("Base:");
-    lcd.print(screenBase);
-
-    lcd.print(" Arm1:");
-    lcd.print(screenArm1);
-  }
-}
-
 void moveArm1(int x, int v)
 {
   if (x > servo2.read())
@@ -131,6 +106,37 @@ void moveArm1(int x, int v)
       delay(v);
     }
   }
+}
+
+void moveBaseByOne(bool isNegative)
+{
+  int currentPos = servo1.read();
+  int newPos;
+
+  if (isNegative == false)
+  {
+    newPos = currentPos + 1;
+  }
+  else if (isNegative == true){
+    newPos = currentPos - 1;
+  }
+
+  servo1.write(newPos);
+}
+void moveArm1ByOne(bool isNegative)
+{
+  int currentPos = servo2.read();
+  int newPos;
+
+  if (isNegative == false)
+  {
+    newPos = currentPos + 1;
+  }
+  else if (isNegative == true){
+    newPos = currentPos - 1;
+  }
+
+  servo2.write(newPos);
 }
 
 void loop()
@@ -169,29 +175,28 @@ void loop()
 
   if (currentTab == 2)
   {
-    lcd.setCursor(0,0);
+    lcd.setCursor(0, 0);
     lcd.print("Base: ");
-    lcd.print(servo1.read()+1);
+    lcd.print(servo1.read() + 1);
     lcd.print("    ");
 
-    lcd.setCursor(0,1);
+    lcd.setCursor(0, 1);
     lcd.print("Arm: ");
-    lcd.print(servo2.read()+1);
+    lcd.print(servo2.read() + 1);
 
     lcd.print(" Arm2: ");
-    lcd.print(servo2.read()+1);
+    lcd.print(servo2.read() + 1);
   }
 
-  if (currentTab ==  3)
+  if (currentTab == 3)
   {
-    lcd.setCursor(0,0);
+    lcd.setCursor(0, 0);
     lcd.print("         ");
-    lcd.setCursor(0,1);
+    lcd.setCursor(0, 1);
     lcd.print("                ");
   }
-  
-  
-  if (keyboard.available())
+
+  if (keyboard.available() && keyboardControll == true)
   {
     char c = keyboard.read();
 
@@ -207,6 +212,27 @@ void loop()
       }
       lcd.setCursor(15, 0);
       lcd.print(currentTab);
+    }
+    else if (c == PS2_LEFTARROW)
+    {
+      moveBaseByOne(false);
+    }
+    else if (c == PS2_RIGHTARROW)
+    {
+      moveBaseByOne(true);
+    }
+    else if (c == PS2_UPARROW)
+    {
+      moveArm1ByOne(false);
+    }
+    else if (c == PS2_DOWNARROW)
+    {
+      moveArm1ByOne(true);
+    }
+    else if (c == '0')
+    {
+      servo1.write(1);
+      servo2.write(1);
     }
   }
 
@@ -328,12 +354,5 @@ void loop()
       // statements
       break;
     }
-  }
-  else if (keyboard.available() && keyboardControll == true)
-  {
-  }
-  else
-  {
-    return;
   }
 }
